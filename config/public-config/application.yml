@@ -1,3 +1,15 @@
+spring:
+  zipkin:
+    base-url: http://localhost:9411
+  # 下载jar本地启动zipkin-server java -jar  zipkin-server-2.12.9-exec.jar 下载地址-https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/
+  sleuth:
+    web:
+      client:
+        enabled: true #web开启sleuth功能,默认
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+      #当设置为1.0时就是链路数据100%收集到zipkin-server，当设置为0.1时，即10%概率收集链路数据
+
 feign:
   hystrix:
     enabled: true #开启断路器才能生效
