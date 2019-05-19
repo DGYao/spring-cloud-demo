@@ -9,6 +9,5 @@ management:
         include: refresh,health
         #暴露能被访问的地址：配置刷新（curl -X POST http://localhost:8802/actuator/refresh）和健康检查
 
-public:
-  config:
-    test: public
+config:
+  test: public-dev
