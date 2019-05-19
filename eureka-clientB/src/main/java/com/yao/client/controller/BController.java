@@ -1,5 +1,6 @@
 package com.yao.client.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.yao.client.constant.Global;
 import com.yao.client.feign.AFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ public class BController {
     private AFeign aFeign;
 
     @RequestMapping("/helloB")
-    public String hello() {
-        String msgFromA = restTemplate.getForObject("http://eureka-clientA/helloA", String.class,"BBB");
+    @HystrixCommand(fallbackMethod = "helloError")
+    public String hello(String msg) {
+        String msgFromA = restTemplate.getForObject("http://eureka-clientA/helloA", String.class,msg);
         return "Hello,I'm " + name + ",port is " + port+",get msg from A is "+msgFromA+",env:"+global.getEnv();
+    }
+    public String helloError(String msg){
+        return "[ribbon-->fail send to A,msg:"+msg+"]";
     }
 
     @RequestMapping("/helloB-Feign")

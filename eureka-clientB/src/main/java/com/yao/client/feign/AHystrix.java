@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AHystrix implements AFeign {
     @Override
     public String hello(@RequestParam("msg") String msg) {
-        return "[fail send to A,msg:"+msg+"]";
+        return "[feign-->fail send to A,msg:"+msg+"]";
     }
 }
