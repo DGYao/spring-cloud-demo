@@ -1,5 +1,7 @@
 package com.yao.client.controller;
 
+import com.netflix.hystrix.exception.HystrixBadRequestException;
+import com.netflix.hystrix.exception.HystrixRuntimeException;
 import com.yao.client.constants.Global;
 import com.yao.client.feign.CFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,20 @@ public class AController {
 
     @RequestMapping("/helloA")
     public String hello(String msg) {
-        return "[Hello,I'm "+name+",port is "+port+",receive msg is:"+msg+",env:"+global.getEnv()+"]";
+        String hello = cFeign.hello(msg);
+        return "[Hello,I'm "+name+",port is "+port+",receive msg is:"+msg+",get msg from C is "+hello+",env:"+global.getEnv()+"]";
     }
 
     @RequestMapping("/helloAFromC")
     public String helloAFromC(String msg){
-        String hello = cFeign.hello(msg);
+        String hello = null;
+        try {
+            hello = cFeign.hello(msg);
+        } catch (HystrixRuntimeException e) {//服务链接不上
+            System.out.println("服务C链接不上:"+e.getMessage());
+        } catch (HystrixBadRequestException e){//被调用服务的系统异常和业务异常
+            System.out.println("服务C抛出业务/系统异常:"+e.getCause());
+        }
         return "Hello,I'm " + name + ",port is " + port+",get msg from C is "+hello;
     }
 }

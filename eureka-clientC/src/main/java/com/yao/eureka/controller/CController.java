@@ -13,6 +13,7 @@ public class CController {
 
     @RequestMapping("/helloC")
     public String hello(String msg) {
+        int i = 1 / 0;
         return "[Hello,I'm "+name+",port is "+port+",receive msg is:"+msg+"]";
     }
 }
