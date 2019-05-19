@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableHystrix //用ribbon时要用这个开启断路器，配合@HystrixCommand使用，用Feign只要在配置文件开启
-@EnableHystrixDashboard
-public class EurekaClientApplication {
+@EnableHystrixDashboard //需要搭配@EnableHystrix使用
+public class EurekaClientBpplication {
     public static void main(String[] args) {
-        SpringApplication.run(EurekaClientApplication.class, args);
+        SpringApplication.run(EurekaClientBpplication.class, args);
     }
 
     @Bean
