@@ -1,0 +1,25 @@
+server:
+  port: 8803
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8800/eureka/
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      label: master
+      server:
+        git:
+          uri: https://github.com/DGYao/spring-cloud-demo   # 配置git仓库的地址
+          search-paths: config/{application}-config,config/public-config # git仓库地址下的相对地址，可以配置多个，用,分割。
+  security:
+    user:
+      name: yao
+      password: 123
+

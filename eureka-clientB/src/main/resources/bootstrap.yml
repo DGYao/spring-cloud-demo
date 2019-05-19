@@ -1,0 +1,25 @@
+server:
+  port: 8811
+spring:
+  application:
+    name: eureka-clientB
+  cloud:
+    config:
+#      uri: http://localhost:8803/
+      label: master
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: eureka-clientB
+      username: yao
+      password: 123
+  zipkin:
+    base-url: http://localhost:9411
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8800/eureka/
+
+

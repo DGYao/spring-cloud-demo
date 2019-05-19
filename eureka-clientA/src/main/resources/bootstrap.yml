@@ -1,0 +1,25 @@
+server:
+  port: 8810
+
+spring:
+  application:
+    name: eureka-clientA
+  cloud:
+    config:
+      #      uri: http://localhost:8803/
+      label: master
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: config-server
+      username: yao
+      password: 123
+      name: eureka-clientA
+  zipkin:
+    base-url: http://localhost:9411
+    # 下载jar本地启动zipkin-server java -jar  zipkin-server-2.12.9-exec.jar 下载地址-https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8800/eureka/
