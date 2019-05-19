@@ -6,8 +6,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh,health #,hystrix.stream
-        #暴露能被访问的地址：配置刷新（curl -X POST http://localhost:8802/actuator/refresh）和健康检查
+        include: refresh,health,hystrix.stream
+        #暴露能被访问的地址：
+        #配置刷新（curl -X POST http://localhost:端口/actuator/refresh）
+        #健康检查(http://localhost:端口/actuator/health)
+        #hystrix Dashboard(http://localhost:端口/actuator/hystrix.stream)
 
 config:
   test: public-dev
