@@ -13,6 +13,7 @@ spring:
       name: eureka-clientC
       username: yao
       password: 123
+      fail-fast: true
 
 eureka:
   instance:

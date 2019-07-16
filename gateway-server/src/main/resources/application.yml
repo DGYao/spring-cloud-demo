@@ -1,0 +1,76 @@
+server:
+  port: 8807
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false #开启服务注册和发现,自动根据服务发现为每一个服务创建了一个router，这个router将以服务名开头的请求路径转发到对应的服务
+          lowerCaseServiceId: true #将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了)
+      routes: #单独为服务加router是将上面enable改为false，不要自动创建的router
+        - id: eureka-clientC
+          uri: lb://EUREKA-CLIENTC
+          predicates:
+            - Path=/c/**
+          filters:
+            - StripPrefix=1
+            #        限流过滤
+#        - id: limit_route
+#          uri: http://httpbin.org:80/get
+#          predicates:
+#            - After=2019-01-20T17:42:47.789-07:00[America/Denver]
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                key-resolver: '#{@hostAddrKeyResolver}'
+#                #用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象
+#                redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
+#                redis-rate-limiter.burstCapacity: 3  #令牌桶总容量
+
+#        - id: elapse_route  #自定义filter
+#          uri: http://httpbin.org:80/get
+#          filters:
+#            - RequestTime=false
+#          predicates:
+#            - After=2019-01-20T17:42:47.789-07:00[America/Denver]
+
+#        - id: route
+#          uri: https://blog.csdn.net
+#          predicates:
+#            时间
+#            - After=2019-01-20T17:42:47.789-07:00[America/Denver]
+#            - Before=2019-01-20T17:42:47.789-07:00[America/Denver]
+#            - Between=2019-01-20T17:42:47.789-07:00[America/Denver], 2019-06-21T17:42:47.789-07:00[America/Denver]
+
+#            请求头 test:curl -H 'X-Request-Id:1' localhost:8807
+#            - Header=X-Request-Id, \d+
+
+#            cookie test:curl -H 'Cookie:yao=haha' localhost:8807
+#            - Cookie=yao, haha
+
+#            Host test:curl -H 'Host:www.yaodingguo.com' localhost:8807
+#            - Host=**.yaodingguo.com
+
+#            Method test:curl -XPOST localhost:8807
+#            - Method=GET
+
+#            - Path=/foo/**
+
+#            - Query=yao, haha
+
+#          filters:
+            # 转发后加请求头数据
+#            - AddRequestHeader=X-Request-Foo, Bar
+
+#            重写url 结合 predicates- PATH
+#            - RewritePath=/foo/(?<segment>.*), /$\{segment}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8800/eureka/
